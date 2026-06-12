@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>RizomUV 2025 快捷键查询</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27><rect width=%2732%27 height=%2732%27 rx=%274%27 fill=%27%232a2a2a%27/><text x=%2716%27 y=%2722%27 font-size=%2716%27 font-weight=%27bold%27 fill=%27%237B2FF7%27 text-anchor=%27middle%27>R</text></svg>">
+<style>
+:root{--bg:#f5f5f7;--surface:#fff;--surface2:#f0f0f2;--border:#e0e0e4;--text:#1d1d1f;--text2:#8e8e93;--accent:#7B2FF7;--accent2:#6420d0;--accent-bg:rgba(123,47,247,.12);--radius:10px;--shadow:0 .5px 2px rgba(0,0,0,.06),0 1px 4px rgba(0,0,0,.04)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.header{background:linear-gradient(180deg,#1a0a2e 0%,#2d1452 100%);padding:0 0 10px 0;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.2)}
+.header-top{display:flex;align-items:center;gap:8px;padding:10px 14px 8px}
+.header-top h1{font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+.header-top h1 span{color:var(--accent)}
+.header-top .badge{font-size:10px;color:#98989d;background:rgba(255,255,255,.08);padding:1px 7px;border-radius:10px;margin-left:2px}
+.search-wrap{position:relative;margin:0 14px}
+.search-wrap .icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#8e8e93;pointer-events:none}
+.search-bar{-webkit-appearance:none;appearance:none;width:100%;padding:9px 12px 9px 34px;border-radius:8px;border:1px solid #4a2a6e;background:#3a1a5e;color:#f5f5f7;font-size:15px;outline:none;transition:border .2s,background .2s}
+.search-bar::placeholder{color:#8e8e93;font-size:14px}
+.search-bar:focus{border-color:var(--accent);background:#2a1048}
+.tabs{display:flex;gap:5px;overflow-x:auto;padding:8px 14px 4px;scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;background:var(--bg)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:6px 13px;border-radius:16px;border:1px solid var(--border);background:var(--surface);font-size:12px;cursor:pointer;transition:all .2s;color:var(--text2);white-space:nowrap;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.tab:active{transform:scale(.95)}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.tab .cnt{font-size:10px;opacity:.65;margin-left:3px}
+.stats{font-size:12px;color:var(--text2);padding:8px 14px 6px;display:flex;justify-content:space-between;align-items:center}
+.grid{display:flex;flex-direction:column;gap:5px;padding:0 12px 60px}
+.item{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border-radius:var(--radius);padding:10px 12px;border:1px solid var(--border);cursor:default;transition:border .15s,box-shadow .15s,transform .1s;touch-action:manipulation;animation:fadeIn .18s ease-out}
+.item:active{transform:scale(.98)}
+.keys{display:flex;gap:3px;flex-wrap:wrap;flex-shrink:0;max-width:140px}
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:26px;padding:0 6px;background:linear-gradient(180deg,#2c2c2e 0%,#1d1d1f 100%);color:#f5f5f7;border-radius:4px;font-size:11px;font-weight:700;font-family:"SF Mono",Menlo,monospace;border-bottom:1.5px solid #000;letter-spacing:-.2px}
+.key.accent{background:linear-gradient(180deg,var(--accent) 0%,#5a1cc0 100%);border-bottom-color:#451599;color:#fff}
+.key.mod{font-size:9px;padding:0 4px;min-width:22px}
+.key.cmd{font-size:12px;padding:0 8px;min-width:32px;letter-spacing:0}
+.desc{flex:1;min-width:0;font-size:13px;line-height:1.4}
+.detail{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.3}
+.no-results{text-align:center;padding:60px 20px;color:var(--text2)}
+.no-results svg{width:40px;height:40px;margin-bottom:10px;opacity:.35}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(245,245,247,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border);z-index:200}
+.bottom-bar .info{font-size:11px;color:var(--text2)}
+.bottom-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;touch-action:manipulation}
+.bottom-btn:active{opacity:.8}
+.bottom-btn svg{width:14px;height:14px}
+@media(prefers-color-scheme:dark){
+:root{--bg:#1c1c1e;--surface:#2c2c2e;--surface2:#3a3a3c;--border:#48484a;--text:#f5f5f7;--text2:#98989d;--accent-bg:rgba(123,47,247,.15);--shadow:0 .5px 2px rgba(0,0,0,.25),0 1px 4px rgba(0,0,0,.2)}
+.bottom-bar{background:rgba(28,28,30,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <h1><svg width="20" height="20" viewBox="0 0 32 32"><rect width="32" height="32" rx="5" fill="%237B2FF7"/><text x="16" y="22" font-size="17" font-weight="bold" fill="%23fff" text-anchor="middle">R</text></svg>RizomUV <span>2025</span><span class="badge" id="totalBadge">0</span></h1>
+  </div>
+  <form class="search-wrap" id="searchForm" autocomplete="off">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input class="search-bar" id="searchInput" type="search" placeholder="搜索快捷键…" enterkeyhint="search">
+  </form>
+</div>
+<div class="tabs" id="tabsContainer"></div>
+<div class="stats"><span id="resultCount">全部</span></div>
+<div class="grid" id="grid"></div>
+<div class="no-results" id="noResults" style="display:none">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+  <div style="font-size:15px;font-weight:600;margin-bottom:3px">没有匹配的快捷键</div>
+  <div style="font-size:13px">换个关键词或分类试试</div>
+</div>
+<div class="bottom-bar">
+  <span class="info" id="bottomInfo">全部</span>
+  <button class="bottom-btn" id="scrollTopBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    顶部
+  </button>
+</div>
+<script>
+const D=[
+  // ── 视图控制 ──
+  {keys:["Alt","左键"],desc:"视图环绕",cat:"视图控制",detail:"Alt+拖拽 旋转3D视图",m:true},
+  {keys:["Alt","中键"],desc:"视图平移",cat:"视图控制",detail:"Alt+中键 平移视图",m:true},
+  {keys:["Alt","右键"],desc:"视图缩放",cat:"视图控制",detail:"Alt+右键 推拉缩放",m:true},
+  {keys:["滚轮"],desc:"缩放视图",cat:"视图控制",detail:"滚动滚轮缩放当前视图",m:true},
+  {keys:["F"],desc:"聚焦选定",cat:"视图控制",detail:"将视图聚焦到选定对象"},
+  {keys:["Home"],desc:"显示全部",cat:"视图控制",detail:"最大化显示所有对象"},
+  {keys:["G"],desc:"网格显示切换",cat:"视图控制",detail:"切换UV网格显示"},
+  {keys:["Shift","G"],desc:"网格设置",cat:"视图控制",detail:"打开网格参数设置"},
+  {keys:["1"],desc:"前视图",cat:"视图控制",detail:"切换到前视图"},
+  {keys:["3"],desc:"右视图",cat:"视图控制",detail:"切换到右视图"},
+  {keys:["7"],desc:"顶视图",cat:"视图控制",detail:"切换到顶视图"},
+  {keys:["5"],desc:"透视/正交切换",cat:"视图控制",detail:"切换透视和正交视图"},
+  {keys:["Numpad","."],desc:"聚焦3D",cat:"视图控制",detail:"3D视图中聚焦选定对象"},
+
+  // ── 选择操作 ──
+  {keys:["Q"],desc:"选择工具",cat:"选择操作",detail:"激活标准选择工具"},
+  {keys:["B"],desc:"框选",cat:"选择操作",detail:"拖拽矩形框选UV"},
+  {keys:["Ctrl","A"],desc:"全选",cat:"选择操作",detail:"选择所有UV元素"},
+  {keys:["Ctrl","I"],desc:"反选",cat:"选择操作",detail:"反转当前UV选择"},
+  {keys:["Ctrl","D"],desc:"取消选择",cat:"选择操作",detail:"取消全部选择"},
+  {keys:["L"],desc:"选择相连孤岛",cat:"选择操作",detail:"选择与当前UV相连的完整孤岛"},
+  {keys:["Ctrl","L"],desc:"扩展选择",cat:"选择操作",detail:"扩展选择到相邻UV元素"},
+  {keys:["Ctrl","Shift","L"],desc:"收缩选择",cat:"选择操作",detail:"收缩当前UV选择范围"},
+  {keys:["H"],desc:"隐藏选定",cat:"选择操作",detail:"隐藏选定的孤岛"},
+  {keys:["Alt","H"],desc:"全部显示",cat:"选择操作",detail:"显示所有隐藏的孤岛"},
+  {keys:["Ctrl","Shift","H"],desc:"隐藏未选定",cat:"选择操作",detail:"隐藏未被选中的孤岛"},
+  {keys:["I"],desc:"孤岛选择模式",cat:"选择操作",detail:"切换孤岛/多边形选择模式"},
+  {keys:["Shift","I"],desc:"循环边选择",cat:"选择操作",detail:"选择UV边界循环边"},
+
+  // ── UV变换 ──
+  {keys:["W"],desc:"移动UV",cat:"UV变换",detail:"移动选中的UV或孤岛"},
+  {keys:["E"],desc:"旋转UV",cat:"UV变换",detail:"旋转选中的UV或孤岛"},
+  {keys:["R"],desc:"缩放UV",cat:"UV变换",detail:"缩放选中的UV或孤岛"},
+  {keys:["Ctrl","Z"],desc:"撤销",cat:"UV变换",detail:"撤销上一次UV操作"},
+  {keys:["Ctrl","Y"],desc:"重做",cat:"UV变换",detail:"重做已撤销的UV操作"},
+  {keys:["Ctrl","F"],desc:"水平翻转",cat:"UV变换",detail:"水平翻转选中的UV"},
+  {keys:["Ctrl","Shift","F"],desc:"垂直翻转",cat:"UV变换",detail:"垂直翻转选中的UV"},
+  {keys:["Ctrl","R"],desc:"向左旋转90°",cat:"UV变换",detail:"选中的UV向左旋转90度"},
+  {keys:["Ctrl","."],desc:"向右旋转90°",cat:"UV变换",detail:"选中的UV向右旋转90度"},
+  {keys:["Shift","D"],desc:"复制UV",cat:"UV变换",detail:"复制并移动选中的UV孤岛"},
+  {keys:["Ctrl","M"],desc:"镜像UV",cat:"UV变换",detail:"镜像选中的UV"},
+  {keys:["Ctrl","Shift","M"],desc:"原地镜像",cat:"UV变换",detail:"在当前位置镜像UV"},
+  {keys:["Ctrl","T"],desc:"变换工具",cat:"UV变换",detail:"打开精确变换面板"},
+
+  // ── UV展开与打包 ──
+  {keys:["U"],desc:"展开UV",cat:"UV展开与打包",detail:"UNFOLD - 展开选中的UV孤岛"},
+  {keys:["Shift","U"],desc:"展开选项",cat:"UV展开与打包",detail:"打开展开参数设置"},
+  {keys:["E"],desc:"打包UV",cat:"UV展开与打包",detail:"PACK - 将孤岛打包到UV空间"},
+  {keys:["Shift","E"],desc:"打包选项",cat:"UV展开与打包",detail:"打开打包参数设置"},
+  {keys:["A"],desc:"排列",cat:"UV展开与打包",detail:"ARRANGE - 自动排列孤岛"},
+  {keys:["Space"],desc:"布局",cat:"UV展开与打包",detail:"布局工具 - 自动排布孤岛"},
+  {keys:["S"],desc:"平滑UV",cat:"UV展开与打包",detail:"SMOOTH - 平滑选中的UV"},
+  {keys:["Ctrl","Shift","A"],desc:"松弛UV",cat:"UV展开与打包",detail:"RELAX - 对UV进行松弛处理"},
+  {keys:["Shift","R"],desc:"松弛选项",cat:"UV展开与打包",detail:"打开松弛参数设置"},
+  {keys:["Ctrl","Shift","S"],desc:"拉直UV",cat:"UV展开与打包",detail:"STRAIGHTEN - 将UV拉直"},
+  {keys:["Shift","S"],desc:"堆叠UV",cat:"UV展开与打包",detail:"STACK - 堆叠重叠UV"},
+  {keys:["Ctrl","Shift","D"],desc:"分离UV",cat:"UV展开与打包",detail:"DETACH - 断开选中的UV边"},
+  {keys:["Ctrl","Shift","U"],desc:"重新展开",cat:"UV展开与打包",detail:"重新展开选中的UV"},
+  {keys:["Ctrl","B"],desc:"烘焙",cat:"UV展开与打包",detail:"BAKE - 烘焙纹理到UV"},
+  {keys:["Ctrl","Shift","E"],desc:"边界选择",cat:"UV展开与打包",detail:"选择UV孤岛的边界边"},
+
+  // ── 显示与纹理 ──
+  {keys:["T"],desc:"纹理显示",cat:"显示与纹理",detail:"切换纹理显示模式"},
+  {keys:["Shift","T"],desc:"棋盘格纹理",cat:"显示与纹理",detail:"切换棋盘格测试纹理"},
+  {keys:["Ctrl","T"],desc:"加载纹理",cat:"显示与纹理",detail:"加载外部图像作为纹理"},
+  {keys:["Ctrl","Shift","T"],desc:"移除纹理",cat:"显示与纹理",detail:"移除当前加载的纹理"},
+  {keys:["C"],desc:"着色模式",cat:"显示与纹理",detail:"切换UV着色显示模式"},
+  {keys:["W"],desc:"线框显示",cat:"显示与纹理",detail:"切换UV线框显示"},
+  {keys:["Shift","W"],desc:"线框设置",cat:"显示与纹理",detail:"打开线框显示设置"},
+  {keys:["O"],desc:"重叠显示",cat:"显示与纹理",detail:"高亮显示重叠的UV区域"},
+  {keys:["Shift","O"],desc:"重叠设置",cat:"显示与纹理",detail:"打开重叠检测设置"},
+  {keys:["X"],desc:"X光模式",cat:"显示与纹理",detail:"开启透明显示便于观察"},
+  {keys:["N"],desc:"法线显示",cat:"显示与纹理",detail:"显示UV法线方向"},
+  {keys:["I"],desc:"孤岛颜色",cat:"显示与纹理",detail:"不同孤岛用不同颜色显示"},
+  {keys:["D"],desc:"形变图",cat:"显示与纹理",detail:"显示UV形变热力图"},
+  {keys:["Shift","D"],desc:"形变设置",cat:"显示与纹理",detail:"打开形变图参数设置"},
+  {keys:["F5"],desc:"重新加载纹理",cat:"显示与纹理",detail:"重新加载纹理图像文件"},
+
+  // ── 锁定与约束 ──
+  {keys:["P"],desc:"锁定UV",cat:"锁定与约束",detail:"PIN - 锁定选中的UV顶点"},
+  {keys:["Shift","P"],desc:"解锁UV",cat:"锁定与约束",detail:"UNPIN - 解锁选中的UV顶点"},
+  {keys:["Ctrl","P"],desc:"锁定选定",cat:"锁定与约束",detail:"锁定当前选中的所有顶点"},
+  {keys:["Ctrl","Shift","P"],desc:"全部解锁",cat:"锁定与约束",detail:"解锁所有被锁定的顶点"},
+  {keys:["Ctrl","Shift","C"],desc:"约束管理",cat:"锁定与约束",detail:"打开约束管理器"},
+  {keys:["Unpin"],desc:"全部解锁按钮",cat:"锁定与约束",detail:"在工具栏点击解锁全部"},
+  {keys:["/"],desc:"隔离模式",cat:"锁定与约束",detail:"进入/退出局部隔离编辑模式"},
+
+  // ── 编辑操作 ──
+  {keys:["Ctrl","Z"],desc:"撤销操作",cat:"编辑操作",detail:"撤销上一步操作"},
+  {keys:["Ctrl","Y"],desc:"重做操作",cat:"编辑操作",detail:"重做已撤销的操作"},
+  {keys:["Delete"],desc:"删除UV",cat:"编辑操作",detail:"删除选中的UV或孤岛"},
+  {keys:["Shift","Delete"],desc:"删除选项",cat:"编辑操作",detail:"打开删除选项对话框"},
+  {keys:["Tab"],desc:"编辑模式切换",cat:"编辑操作",detail:"在UV编辑和类型选择间切换"},
+  {keys:["Escape"],desc:"取消",cat:"编辑操作",detail:"取消当前操作或选择"},
+  {keys:["Enter"],desc:"确认",cat:"编辑操作",detail:"确认当前变换或操作"},
+
+  // ── 文件操作 ──
+  {keys:["Ctrl","N"],desc:"新建",cat:"文件操作",detail:"创建新的UV项目"},
+  {keys:["Ctrl","O"],desc:"打开",cat:"文件操作",detail:"打开已有UV项目文件"},
+  {keys:["Ctrl","S"],desc:"保存",cat:"文件操作",detail:"保存当前UV项目"},
+  {keys:["Ctrl","Shift","S"],desc:"另存为",cat:"文件操作",detail:"将项目另存为新文件"},
+  {keys:["Ctrl","E"],desc:"导出UV",cat:"文件操作",detail:"导出UV布局为图像"},
+  {keys:["Ctrl","Shift","E"],desc:"导出选项",cat:"文件操作",detail:"打开导出参数设置"},
+  {keys:["Ctrl","P"],desc:"打印UV",cat:"文件操作",detail:"打印UV布局"},
+  {keys:["Ctrl","C"],desc:"复制",cat:"文件操作",detail:"复制UV到剪贴板"},
+  {keys:["Ctrl","V"],desc:"粘贴",cat:"文件操作",detail:"从剪贴板粘贴UV"},
+
+  // ── 工具 ──
+  {keys:["F1"],desc:"帮助",cat:"工具",detail:"打开RizomUV帮助文档"},
+  {keys:["F2"],desc:"显示设置",cat:"工具",detail:"打开显示参数设置面板"},
+  {keys:["F3"],desc:"工具设置",cat:"工具",detail:"打开工具参数设置面板"},
+  {keys:["Space"],desc:"快速搜索",cat:"工具",detail:"搜索菜单和命令"},
+  {keys:["Ctrl","Space"],desc:"工具面板",cat:"工具",detail:"打开工具面板"},
+  {keys:["Ctrl","Tab"],desc:"切换编辑器",cat:"工具",detail:"在UV编辑和3D视图间切换"},
+  {keys:["`"],desc:"全局菜单",cat:"工具",detail:"打开全局快捷菜单"},
+  {keys:["Shift","C"],desc:"清除颜色",cat:"工具",detail:"重置显示颜色设置"},
+  {keys:["Ctrl","Shift","Z"],desc:"重做全部",cat:"工具",detail:"重做所有已撤销操作"},
+  {keys:["Ctrl","W"],desc:"关闭项目",cat:"工具",detail:"关闭当前UV项目"},
+  {keys:["Ctrl","Q"],desc:"退出",cat:"工具",detail:"退出RizomUV"},
+  {keys:["Ctrl","F5"],desc:"刷新",cat:"工具",detail:"刷新当前视图和纹理"},
+
+  // ── 选择模式 ──
+  {keys:["I"],desc:"孤岛模式",cat:"选择模式",detail:"切换到孤岛选择模式"},
+  {keys:["Shift","I"],desc:"多边形模式",cat:"选择模式",detail:"切换到多边形选择模式"},
+  {keys:["Ctrl","Shift","I"],desc:"边选择模式",cat:"选择模式",detail:"切换到边选择模式"},
+  {keys:["Ctrl","B"],desc:"边界选择模式",cat:"选择模式",detail:"切换到边界选择模式"},
+  {keys:["Ctrl","Shift","B"],desc:"环选择模式",cat:"选择模式",detail:"切换到环选择模式"},
+  {keys:["Ctrl","Shift","L"],desc:"循环边模式",cat:"选择模式",detail:"切换到循环边选择模式"},
+];
+let A="全部",Q="";
+const C=[...new Set(D.map(s=>s.cat))].sort((a,b)=>D.filter(x=>x.cat===b).length-D.filter(x=>x.cat===a).length);
+function rK(k,m){let c="key";if(k==="左键"||k==="中键"||k==="右键")c+=" special";else if(k==="Ctrl"||k==="Shift"||k==="Alt")c+=" mod";else if(k==="Space"||k==="Home"||k==="Delete"||k==="Backspace"||k==="Enter"||k==="Tab"||k==="Escape")c+=" accent";else if(k.length>=3&&k.indexOf("F")==0)c+=" accent";else if(m)c+=" accent";return `<span class="${c}">${k}</span>`}
+function rI(s){return `<div class="item"><div class="keys">${s.keys.map(k=>rK(k,s.keys.length>1)).join("")}</div><div class="desc">${s.desc}<div class="detail">${s.detail||""}</div></div></div>`}
+function rA(){const g=document.getElementById("grid"),n=document.getElementById("noResults"),r=document.getElementById("resultCount"),b=document.getElementById("bottomInfo");let i=D;A!=="全部"&&(i=i.filter(s=>s.cat===A));if(Q.trim()){const q=Q.trim().toLowerCase();i=i.filter(s=>(s.desc+" "+s.keys.join(" ")+" "+(s.detail||"")).toLowerCase().includes(q))}g.innerHTML=i.map(rI).join("");n.style.display=i.length?"none":"block";const t=A==="全部"?`共 ${i.length} 条`:`${A} · ${i.length} 条`;r.textContent=t;b.textContent=t}
+function rT(){const c=document.getElementById("tabsContainer"),ac=D.length;let h=`<div class="tab${A==="全部"?" active":""}" data-cat="全部">全部<span class="cnt">${ac}</span></div>`;C.forEach(cat=>{const cnt=D.filter(s=>s.cat===cat).length;h+=`<div class="tab${A===cat?" active":""}" data-cat="${cat}">${cat}<span class="cnt">${cnt}</span></div>`});c.innerHTML=h;c.querySelectorAll(".tab").forEach(el=>{el.addEventListener("click",()=>{A=el.dataset.cat;rT();rA()})})}
+document.getElementById("totalBadge").textContent=D.length;
+const si=document.getElementById("searchInput");si.addEventListener("input",()=>{Q=si.value;rA()});document.getElementById("searchForm").addEventListener("submit",e=>e.preventDefault());
+document.getElementById("scrollTopBtn").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+rT();rA();
+</script>
+</body>
+</html>
